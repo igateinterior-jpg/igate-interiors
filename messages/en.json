@@ -1,0 +1,274 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "projects": "Projects",
+    "contact": "Contact",
+    "startProject": "Start Project"
+  },
+  "hero": {
+    "location": "Kuwait — Fahaheel",
+    "title1": "Crafting Spaces",
+    "title2": "Beyond Ordinary.",
+    "subtitle": "Turn-key interior fit-out solutions for Retail, F&B, Commercial Offices, and Warehouses. From demolition to final handover — we manage every detail.",
+    "cta1": "Our Expertise",
+    "cta2": "View Projects",
+    "scroll": "Scroll",
+    "stat1": "Projects Completed",
+    "stat2": "SQM Constructed",
+    "stat3": "Malls Covered",
+    "stat4": "Major Brands"
+  },
+  "aboutPreview": {
+    "label": "Who We Are",
+    "heading1": "Built on",
+    "heading2": "Credibility.",
+    "text": "iGate Interiors is a Kuwait-based design and fit-out firm creating modernized spaces for Retail, F&B, Commercial, and Industrial sectors. From shell & core through to final handover — we handle every trade.",
+    "founder": "Founded by Mr. Anthony Cardin and expanded under Mr. Sabiullah Siraj, iGate has grown into a major establishment delivering turn-key execution across Kuwait.",
+    "mission": "Our Mission",
+    "missionText": "Advancing professionalism, integrity, and efficiency in every space.",
+    "philosophy": "Philosophy",
+    "philosophyText": "Design should be seamless, practical, and inspiring from start to finish.",
+    "learnMore": "Learn More",
+    "since": "Since",
+    "foundation": "Foundation"
+  },
+  "expertise": {
+    "label": "What We Do",
+    "heading1": "Our",
+    "heading2": "Expertise.",
+    "subtitle": "From shell & core through to final handover — we handle every trade, every detail.",
+    "fitout": "Interior Fit-Out Solutions",
+    "fitoutDesc": "Complete turn-key contracting from shell & core to final handover. We manage the complexity so you can focus on the result.",
+    "demolition": "Demolition",
+    "demolitionDesc": "Safe strip-out & clearing",
+    "partitions": "Partitions",
+    "partitionsDesc": "Gypsum & acoustic walls",
+    "flooring": "Flooring",
+    "flooringDesc": "Marble, tile & finishes",
+    "civil": "Civil Works",
+    "civilDesc": "Structural modifications",
+    "design": "Design & Space Planning",
+    "designDesc": "Conceptualizing functional layouts that optimize flow. We transform specific requirements into realized environments.",
+    "mep": "MEP Services",
+    "mepDesc": "HVAC, Mechanical, Electrical, and Plumbing. Certified installation, maintenance, and compliance.",
+    "joinery": "Joinery Works",
+    "joineryDesc": "Bespoke woodworks from our specialized facility. From traditional craftsmanship to modern design execution.",
+    "allServices": "All Services"
+  },
+  "projects": {
+    "label": "Our Work",
+    "heading1": "Selected",
+    "heading2": "Projects.",
+    "completed": "30+ Completed",
+    "viewProject": "View Project",
+    "viewAll": "View All Projects",
+    "filterAll": "All Projects",
+    "filterRetail": "Retail",
+    "filterFnb": "F&B",
+    "filterCommercial": "Commercial",
+    "filterIndustrial": "Industrial",
+    "heroSub": "30+ completed projects across Kuwait — from retail flagships and restaurants to warehouses and executive offices.",
+    "ctaHeading1": "Your Project",
+    "ctaHeading2": "Could Be Next."
+  },
+  "projectDetail": {
+    "backToProjects": "All Projects",
+    "overview": "Project Overview",
+    "client": "Client",
+    "location": "Location",
+    "category": "Category",
+    "area": "Area",
+    "duration": "Duration",
+    "year": "Year",
+    "scopes": "Scope of Work",
+    "gallery": "Gallery",
+    "scopeFitOut": "Fit-Out",
+    "scopeJoinery": "Joinery",
+    "scopeMep": "MEP",
+    "scopeHoarding": "Hoarding",
+    "scopeDemolition": "Demolition"
+  },
+  "process": {
+    "label": "How We Work",
+    "heading1": "A Proven",
+    "heading2": "Process.",
+    "step1": "Consultation & Brief",
+    "step1Desc": "We understand your vision, budget, timeline, and specific requirements. Every project begins with listening.",
+    "step2": "Design & Visualization",
+    "step2Desc": "2D/3D renderings and material boards. You approve the finished space before construction begins.",
+    "step3": "Build & Installation",
+    "step3Desc": "MEP, civil, joinery, and finishes — executed with daily progress updates and strict quality control.",
+    "step4": "Handover & Support",
+    "step4Desc": "Final walkthrough, snag list clearance, and formal handover. We stay available post-completion."
+  },
+  "testimonials": {
+    "label": "Client Words",
+    "heading1": "What They",
+    "heading2": "Say."
+  },
+  "cta": {
+    "heading1": "Ready to Transform",
+    "heading2": "Your Space?",
+    "subtitle": "Get in touch and our team will respond within 24 hours with an initial consultation plan.",
+    "button": "Start Your Project",
+    "whatsapp": "WhatsApp Us"
+  },
+  "about": {
+    "breadcrumb": "About",
+    "heading1": "Built on",
+    "heading2": "Credibility.",
+    "heroSub": "A Kuwait-based design and fit-out firm creating modernized spaces for commercial, retail, F&B, and industrial sectors.",
+    "storyLabel": "Our Story",
+    "storyHeading1": "The Journey",
+    "storyHeading2": "So Far.",
+    "majorBrands": "Major Brands",
+    "valuesLabel": "Our Values",
+    "valuesHeading1": "What Drives",
+    "valuesHeading2": "Us.",
+    "valueCredibility": "Credibility",
+    "valueCredibilityDesc": "Consistent reliability. Timely delivery within budget, every single time.",
+    "valueUnifiedTeam": "Unified Team",
+    "valueUnifiedTeamDesc": "We handle both design and implementation — you focus on your business.",
+    "ctaHeading1": "Let's Build",
+    "ctaHeading2": "Together."
+  },
+  "services": {
+    "breadcrumb": "Services",
+    "heading1": "Our",
+    "heading2": "Expertise.",
+    "heroSub": "End-to-end interior solutions — from initial demolition through final handover. Every trade, every detail, under one roof.",
+    "hoarding": "Shop Hoardings in Malls",
+    "hoardingDesc": "Professional temporary hoardings and barricades for mall locations during construction.",
+    "demolitionFullDesc": "Controlled demolition, strip-out, and site clearance services.",
+    "maintenance": "Maintenance Works",
+    "maintenanceDesc": "Ongoing maintenance and repair services for completed spaces.",
+    "ctaHeading1": "Need a",
+    "ctaHeading2": "Custom Solution?",
+    "ctaButton": "Get Free Consultation",
+    "tags1": [
+      "Shell & Core",
+      "Partitions",
+      "Ceilings",
+      "Flooring",
+      "Turn-Key"
+    ],
+    "tags2": [
+      "Mall Compliance",
+      "Branded Panels",
+      "Safety"
+    ],
+    "tags3": [
+      "Strip-Out",
+      "Site Clearance",
+      "Safe Removal"
+    ],
+    "tags4": [
+      "2D/3D Renders",
+      "Space Planning",
+      "Material Selection"
+    ],
+    "tags5": [
+      "HVAC",
+      "Electrical",
+      "Plumbing",
+      "Fire Safety"
+    ],
+    "tags6": [
+      "Preventive",
+      "Emergency",
+      "Periodic Refresh"
+    ],
+    "tags7": [
+      "Custom Furniture",
+      "Display Units",
+      "Counters",
+      "Cabinetry"
+    ]
+  },
+  "contact": {
+    "breadcrumb": "Contact",
+    "heading1": "Start Your",
+    "heading2": "Project.",
+    "heroSub": "Ready to transform your space? Get in touch and our team will respond within 24 hours with an initial consultation plan.",
+    "label": "Get In Touch",
+    "formHeading1": "Let's Talk About",
+    "formHeading2": "Your Space.",
+    "formSub": "Whether you need a full commercial fit-out, a restaurant renovation, or a simple consultation — we're here to help.",
+    "phone": "Phone",
+    "email": "Email",
+    "location": "Location",
+    "hours": "Working Hours",
+    "hoursValue": "Open 24/7 — Every Day of the Week",
+    "whatsappChat": "Chat on WhatsApp",
+    "whatsappSub": "Quick response guaranteed",
+    "fullName": "Full Name",
+    "phonePlaceholder": "+965 XXXX XXXX",
+    "emailPlaceholder": "email@company.com",
+    "serviceType": "Service Type",
+    "projectLocation": "Project Location",
+    "locationPlaceholder": "e.g. The Avenues, Kuwait City",
+    "projectDetails": "Project Details",
+    "detailsPlaceholder": "Tell us about your space, budget range, and timeline...",
+    "send": "Send Inquiry",
+    "sending": "Sending...",
+    "sent": "Sent Successfully",
+    "responseTime": "We typically respond within 24 hours.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorRateLimit": "Too many requests. Please try again later.",
+    "serviceOptions": [
+      "Interior Fit-Out",
+      "Design & Planning",
+      "MEP Services",
+      "Joinery Works",
+      "Shop Hoarding",
+      "Demolition",
+      "Maintenance",
+      "Other"
+    ]
+  },
+  "footer": {
+    "description": "Premium turn-key interior fit-out, design, and joinery solutions. Based in Fahaheel, serving all of Kuwait.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "address": "Fahaheel, Kuwait",
+    "copyright": "© 2026 iGate Interiors. All rights reserved.",
+    "tagline": "Crafted with precision in Kuwait."
+  },
+  "clients": [
+    "Skechers",
+    "R&B",
+    "Brand Bazaar",
+    "Athlete's Co.",
+    "Levi's",
+    "Tim Hortons",
+    "Rock House Sliders"
+  ],
+  "seo": {
+    "home": {
+      "title": "Fit Out Contractor Kuwait | iGate Interiors",
+      "description": "Turn-key fit out contractor in Kuwait delivering retail fit out, shop fitting, joinery, MEP and demolition works — 30+ projects completed across Kuwait."
+    },
+    "about": {
+      "title": "About iGate Interiors | Fit Out Company Kuwait",
+      "description": "iGate Interiors is a Fahaheel-based fit out company in Kuwait offering retail fit out, design, joinery and turn-key contracting with 10+ years of experience."
+    },
+    "services": {
+      "title": "Shop Fitting, Hoarding & Demolition Kuwait | iGate",
+      "description": "Retail fit out, shop fitting, mall hoardings, demolition, MEP, joinery and maintenance in Kuwait — every trade delivered under one roof by iGate Interiors."
+    },
+    "projects": {
+      "title": "Retail Fit Out Projects Kuwait | iGate Interiors",
+      "description": "Browse 30+ completed fit out projects across Kuwait — retail flagships, restaurants, offices and warehouses delivered end to end by iGate Interiors contracting."
+    },
+    "contact": {
+      "title": "Contact Fit Out Contractor Kuwait | iGate Interiors",
+      "description": "Talk to a licensed fit out and demolition contractor in Kuwait. Call +965 9723 4117 or send your project details for a free consultation and quick site visit."
+    },
+    "projectDetail": {
+      "title": "{title} | iGate Interiors Kuwait",
+      "description": "{title} — a commercial fit out project delivered by iGate Interiors in Kuwait. View the scope of work, project details and photo gallery."
+    }
+  }
+}
