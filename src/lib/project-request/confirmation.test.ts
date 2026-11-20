@@ -9,7 +9,7 @@ const core: CleanRequest = {
   path: 'core',
   values: {
     company: 'Alshaya Retail',
-    brand: 'Cafe Nero <b>',
+    brand: 'Cafe Nero',
     mall: 'avenues',
     shop: 'G-114',
     manager: 'Sara Ahmed',
@@ -53,7 +53,7 @@ describe('buildConfirmationEmail: English', () => {
 
   it('summarises path, brand, mall, shop and the main Core & Shell scope', () => {
     expect(email.text).toContain('Request type: Core & Shell restoration');
-    expect(email.text).toContain('Brand / trading name: Cafe Nero <b>');
+    expect(email.text).toContain('Brand / trading name: Cafe Nero');
     expect(email.text).toContain('Mall name and location: The Avenues');
     expect(email.text).toContain('Shop number and floor level: G-114');
     expect(email.text).toContain('Original unit typology: F&B (restaurant / cafe / heavy cooking)');
@@ -67,9 +67,11 @@ describe('buildConfirmationEmail: English', () => {
     expect(email.text).not.toContain('Contact number');
   });
 
-  it('escapes what the client typed', () => {
-    expect(email.html).toContain('Cafe Nero &lt;b&gt;');
-    expect(email.html).not.toContain('Cafe Nero <b>');
+  it('escapes the characters it keeps and leaves out markup', () => {
+    const typed = buildConfirmationEmail({ ...core, values: { ...core.values, brand: "H&M's" } }, { reference: REF, lang: 'en', logoUrl: LOGO });
+    expect(typed.html).toContain('H&amp;M&#039;s');
+    const markup = buildConfirmationEmail({ ...core, values: { ...core.values, brand: 'Cafe <b>Nero</b>' } }, { reference: REF, lang: 'en', logoUrl: LOGO });
+    expect(markup.html).not.toContain('Nero');
   });
 
   it('has a WhatsApp button prefilled with the reference', () => {
@@ -134,11 +136,31 @@ describe('buildConfirmationEmail: free text from the form', () => {
     'Visit www.evil.example',
     'evil-site.com/login',
     'Contact refunds@evil.example',
-  ])('leaves out an answer that looks like a link or email address: %s', (brand) => {
+    'Go to evil.com.',
+    'evil.com, today',
+    'evil。com',
+    'ｅｖｉｌ．ｃｏｍ',
+    'evil[.]com',
+    'evil:8080',
+  ])('leaves out an answer that could carry a link: %s', (brand) => {
     const email = buildConfirmationEmail(withBrand(brand), { reference: REF, lang: 'en', logoUrl: LOGO });
     expect(email.text).not.toContain(brand);
-    expect(email.html).not.toContain('evil');
+    expect(email.html).not.toMatch(/evil|ｅｖｉｌ/);
     expect(email.text).not.toContain('Brand / trading name');
+  });
+
+  it.each(['St. Regis Cafe', 'H&M', "Paul's Bakery (Kids)", 'Shop #12', 'كافيه نيرو', 'Cafe Nero, ground floor'])(
+    'keeps an ordinary answer: %s',
+    (brand) => {
+      const email = buildConfirmationEmail(withBrand(brand), { reference: REF, lang: 'en', logoUrl: LOGO });
+      expect(email.text).toContain(`Brand / trading name: ${brand}`);
+    },
+  );
+
+  it('keeps the Arabic comma in Arabic answers', () => {
+    const arabic = { ...core, values: { ...core.values, shop: 'G-114، الطابق الأرضي' } };
+    const email = buildConfirmationEmail(arabic, { reference: REF, lang: 'ar', logoUrl: LOGO });
+    expect(email.text).toContain('G-114، الطابق الأرضي');
   });
 
   it('applies the same rule to the "Other" mall box', () => {
@@ -152,8 +174,4 @@ describe('buildConfirmationEmail: free text from the form', () => {
     expect(email.text).not.toContain('A'.repeat(61));
   });
 
-  it('keeps ordinary names that contain dots', () => {
-    const email = buildConfirmationEmail(withBrand('St. Regis Cafe'), { reference: REF, lang: 'en', logoUrl: LOGO });
-    expect(email.text).toContain('Brand / trading name: St. Regis Cafe');
-  });
 });

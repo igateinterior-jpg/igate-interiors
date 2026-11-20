@@ -2,6 +2,7 @@ import { randomInt } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { attachmentName, detectFileType } from '@/lib/project-request/file-type';
+import { mailboxKey } from '@/lib/project-request/mailbox';
 import { deliverRequest, type EmailClient, type MailerConfig } from '@/lib/project-request/mailer';
 import { getPath, isPathId } from '@/lib/project-request/paths';
 import { kuwaitDate, makeReference } from '@/lib/project-request/reference';
@@ -48,7 +49,7 @@ const mailerConfig = (): MailerConfig => ({
   confirmationFrom: process.env.CONFIRMATION_FROM_EMAIL || CONFIRMATION_FROM,
   confirmationReplyTo: CONFIRMATION_REPLY_TO,
   logoUrl: EMAIL_LOGO_URL,
-  canConfirm: (address) => !confirmationLimiter.isLimited(address.trim().toLowerCase()),
+  canConfirm: (address) => !confirmationLimiter.isLimited(mailboxKey(address)),
 });
 
 const resendClient = (apiKey: string): EmailClient => {

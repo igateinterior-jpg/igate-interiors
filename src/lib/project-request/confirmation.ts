@@ -94,15 +94,18 @@ interface Row {
 
 /*
  * The confirmation goes to an address nobody has verified, so free text typed
- * into the form is treated with care: anything that looks like a link or an
- * email address is left out, and the rest is shortened. Fixed option labels
- * are shown as they are. The team email always gets the full answers.
+ * into the form is only repeated if it is made of ordinary characters: letters,
+ * digits, spaces and a little punctuation, with a dot allowed only before a
+ * space or at the end ("St. Regis"). Anything else, which could carry a link,
+ * is left out. Fixed option labels are shown as they are, and the team email
+ * always gets the full answers.
  */
 const FREE_TEXT_MAX = 60;
-const LINK_LIKE = /(https?:\/\/|www\.|@|[\p{L}\p{N}-]+\.[a-z]{2,}(?=$|[\s/:?#]))/iu;
+const SAFE_CHARACTERS = /^[\p{L}\p{M}\p{N}\s&'’(),،\-\/#.]+$/u;
+const DOT_INSIDE_TEXT = /\.(?!\s|$)/u;
 
 const safeFreeText = (value: string): string | null => {
-  if (LINK_LIKE.test(value)) return null;
+  if (!SAFE_CHARACTERS.test(value) || DOT_INSIDE_TEXT.test(value)) return null;
   return value.length > FREE_TEXT_MAX ? `${value.slice(0, FREE_TEXT_MAX)}...` : value;
 };
 
