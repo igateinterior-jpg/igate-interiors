@@ -1,17 +1,9 @@
 import type { Lang } from '@/lib/project-request/types';
 import type { ErrorCode, FileErrorCode } from '@/lib/project-request/validate';
 
-export const CONTACT = {
-  whatsappNumber: '96597234117',
-  phones: [
-    { display: '(+965) 9723 4117', href: 'tel:+96597234117' },
-    { display: '(+965) 6998 9934', href: 'tel:+96569989934' },
-  ],
-  email: 'info@igateinteriors.com',
-} as const;
+import { whatsappReferenceMessage } from '@/lib/contact';
 
-export const whatsappLink = (message?: string): string =>
-  `https://wa.me/${CONTACT.whatsappNumber}${message ? `?text=${encodeURIComponent(message)}` : ''}`;
+export { CONTACT, whatsappLink } from '@/lib/contact';
 
 interface Step {
   readonly title: string;
@@ -160,7 +152,7 @@ const en: Copy = {
   sending: 'Sending...',
   thankYou: 'Thank you. We have your request and will contact you within 24 hours.',
   referenceLabel: 'Your reference',
-  whatsappReference: (ref) => `Hi, my request reference is ${ref}`,
+  whatsappReference: (ref) => whatsappReferenceMessage('en', ref),
   failed: 'Your request could not be sent. Try again or send the details on WhatsApp.',
   rateLimited: 'Too many requests from this connection. Try again in an hour or send the details on WhatsApp.',
   fixErrors: 'Some answers need attention. Check the fields marked below.',
@@ -257,7 +249,7 @@ const ar: Copy = {
   sending: 'جارٍ الإرسال...',
   thankYou: 'شكراً لك. استلمنا طلبك وسنتواصل معك خلال 24 ساعة.',
   referenceLabel: 'الرقم المرجعي لطلبك',
-  whatsappReference: (ref) => `مرحباً، الرقم المرجعي لطلبي هو ${ref}`,
+  whatsappReference: (ref) => whatsappReferenceMessage('ar', ref),
   failed: 'تعذّر إرسال طلبك. حاول مرة أخرى أو أرسل التفاصيل عبر واتساب.',
   rateLimited: 'طلبات كثيرة من هذا الاتصال. حاول بعد ساعة أو أرسل التفاصيل عبر واتساب.',
   fixErrors: 'بعض الإجابات تحتاج إلى مراجعة. تحقق من الحقول المحددة أدناه.',

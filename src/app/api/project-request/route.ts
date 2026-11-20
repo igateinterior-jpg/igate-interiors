@@ -1,18 +1,22 @@
 import { randomInt } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { buildRequestEmail } from '@/lib/project-request/email';
 import { attachmentName, detectFileType } from '@/lib/project-request/file-type';
+import { deliverRequest, type EmailClient, type MailerConfig } from '@/lib/project-request/mailer';
 import { getPath, isPathId } from '@/lib/project-request/paths';
 import { kuwaitDate, makeReference } from '@/lib/project-request/reference';
 import type { Lang } from '@/lib/project-request/types';
 import { validateFiles, validateRequest, type Errors, type FileErrorCode } from '@/lib/project-request/validate';
 import { clientIp, createRateLimiter } from '@/lib/rate-limit';
+import { SITE_URL } from '@/lib/seo';
 
 export const runtime = 'nodejs';
 
-const DEFAULT_INBOXES = ['info@igateinteriors.com', 'sabiullah@igateinteriors.com'];
+const DEFAULT_INBOXES = ['info@igateinteriors.com', 'saif@igateinteriors.com', 'sabiullah@igateinteriors.com'];
 const DEFAULT_FROM = 'iGate Interiors <onboarding@resend.dev>';
+const CONFIRMATION_FROM = 'iGate Interiors <requests@igateinteriors.com>';
+const CONFIRMATION_REPLY_TO = 'info@igateinteriors.com';
+const EMAIL_LOGO_URL = `${SITE_URL}/brand/igate-logo-email.png`;
 const HONEYPOT_FIELD = 'website';
 const RANDOM_SPACE = 1_000_000;
 const cryptoRandom = () => randomInt(RANDOM_SPACE) / RANDOM_SPACE;
@@ -34,6 +38,22 @@ const respond = (body: ApiResponse, status = 200) => NextResponse.json(body, { s
 const inboxes = (): string[] => {
   const configured = process.env.PROJECT_REQUEST_INBOX?.split(',').map((s) => s.trim()).filter(Boolean);
   return configured && configured.length > 0 ? configured : DEFAULT_INBOXES;
+};
+
+const mailerConfig = (): MailerConfig => ({
+  teamFrom: process.env.RESEND_FROM_EMAIL || DEFAULT_FROM,
+  teamTo: inboxes(),
+  confirmationFrom: process.env.CONFIRMATION_FROM_EMAIL || CONFIRMATION_FROM,
+  confirmationReplyTo: CONFIRMATION_REPLY_TO,
+  logoUrl: EMAIL_LOGO_URL,
+});
+
+const resendClient = (apiKey: string): EmailClient => {
+  const resend = new Resend(apiKey);
+  return {
+    send: ({ to, attachments, ...email }) =>
+      resend.emails.send({ ...email, to: [...to], attachments: attachments?.map((a) => ({ ...a })) }),
+  };
 };
 
 const readFiles = (form: FormData): File[] =>
@@ -125,29 +145,16 @@ export async function POST(request: NextRequest) {
   }
 
   const lang: Lang = form.get('lang') === 'ar' ? 'ar' : 'en';
-  const fileNames = attachments.map((a) => a.filename);
-  const email = buildRequestEmail(result.data, { reference, lang, fileNames, submittedAt: now });
-  const replyTo = typeof result.data.values.email === 'string' ? result.data.values.email : undefined;
+  const delivery = await deliverRequest(resendClient(apiKey), mailerConfig(), {
+    request: result.data,
+    reference,
+    lang,
+    attachments,
+    submittedAt: now,
+  });
 
-  try {
-    const { error } = await new Resend(apiKey).emails.send({
-      from: process.env.RESEND_FROM_EMAIL || DEFAULT_FROM,
-      to: inboxes(),
-      replyTo,
-      subject: email.subject,
-      html: email.html,
-      text: email.text,
-      attachments,
-    });
-
-    if (error) {
-      console.error('[project-request] Resend rejected the email', { reference, error });
-      return respond({ success: false, error: 'sendFailed' }, 502);
-    }
-
-    return respond({ success: true, reference });
-  } catch (err) {
-    console.error('[project-request] sending failed', { reference, err });
-    return respond({ success: false, error: 'sendFailed' }, 502);
-  }
+  // A failed client confirmation is logged inside deliverRequest; the request itself still counts.
+  return delivery.team === 'sent'
+    ? respond({ success: true, reference })
+    : respond({ success: false, error: 'sendFailed' }, 502);
 }
