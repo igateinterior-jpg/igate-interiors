@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="57.24 250.88 230 230">
+  <title>iGate Interiors</title>
+  <g fill="#e13226">
+    <rect x="63.04" y="285.96" width="33.36" height="33.36"/>
+    <rect x="63.04" y="336.6" width="33.36" height="109.2"/>
+    <rect x="135.76" y="285.96" width="145.68" height="33.36"/>
+    <path d="M169.36,412.2h78.48v-42.24h-39.36v-33.24s.33-.36.36-.36h72.24s.36.33.36.36v109.08h-145.68v-109.44h33.24s.36.33.36.36v75.48Z"/>
+  </g>
+</svg>

@@ -1,0 +1,227 @@
+/*
+ * Tokens for the coming soon page. Dark is the default; light mirrors a real
+ * white mall hoarding. Text colours are picked to clear WCAG AA on their
+ * backgrounds; the brand red (#e13226) is kept for large shapes, and a deeper
+ * red carries white text.
+ */
+
+.page {
+  --ground: #17181b;
+  --panel-top: #2a2d32;
+  --panel-bottom: #1e2024;
+  --seam: rgba(255, 255, 255, 0.07);
+  --surface: #191a1d;
+  --card: #222428;
+  --ink: #f3f1ed;
+  --muted: #b0ada6;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.34);
+  --well: rgba(0, 0, 0, 0.32);
+  --brand: #e13226;
+  --action: #c8281e;
+  --action-hover: #a92017;
+  --accent-text: #ff7b70;
+  --ring: rgba(225, 50, 38, 0.38);
+  --warn: #f2b544;
+  --warn-bg: rgba(242, 181, 68, 0.1);
+  --glow: rgba(255, 244, 224, 0.1);
+  --floor: #111215;
+  --radius: 2px;
+  --gutter: 16px;
+  --max: 1200px;
+  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+
+  min-height: 100vh;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--cs-font-latin), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+:global(html[data-theme='light']) .page {
+  --ground: #ececea;
+  --panel-top: #f8f8f6;
+  --panel-bottom: #f0f0ed;
+  --seam: rgba(0, 0, 0, 0.085);
+  --surface: #f7f7f5;
+  --card: #ffffff;
+  --ink: #1f2124;
+  --muted: #55585d;
+  --line: rgba(0, 0, 0, 0.14);
+  --line-strong: rgba(0, 0, 0, 0.36);
+  --well: #ffffff;
+  --action: #c4271d;
+  --action-hover: #a3200f;
+  --accent-text: #b3241a;
+  --ring: rgba(196, 39, 29, 0.3);
+  --warn: #8a4f00;
+  --warn-bg: rgba(242, 181, 68, 0.16);
+  --glow: rgba(255, 255, 255, 0);
+  --floor: #dcdcd8;
+}
+
+/* No JS: follow the device until the boot script sets data-theme. */
+@media (prefers-color-scheme: light) {
+  :global(html:not([data-theme])) .page {
+    --ground: #ececea;
+    --panel-top: #f8f8f6;
+    --panel-bottom: #f0f0ed;
+    --seam: rgba(0, 0, 0, 0.085);
+    --surface: #f7f7f5;
+    --card: #ffffff;
+    --ink: #1f2124;
+    --muted: #55585d;
+    --line: rgba(0, 0, 0, 0.14);
+    --line-strong: rgba(0, 0, 0, 0.36);
+    --well: #ffffff;
+    --accent-text: #b3241a;
+    --warn: #8a4f00;
+    --floor: #dcdcd8;
+  }
+}
+
+.page[data-lang='ar'] {
+  font-family: var(--cs-font-arabic), var(--cs-font-latin), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.page :focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Shown only on touch screens / only with a mouse. */
+.touchOnly {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .touchOnly {
+    display: inline;
+  }
+
+  .pointerOnly {
+    display: none;
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.primary {
+  background: var(--action);
+  color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--action-hover);
+}
+
+.primary:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.secondary {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+}
+
+.secondary:hover {
+  border-color: var(--ink);
+}
+
+.textButton {
+  padding: 4px 0;
+  background: none;
+  border: 0;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.textButton:hover {
+  text-decoration-color: var(--brand);
+}
+
+.footer {
+  padding: 28px var(--gutter) 36px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contactList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  max-width: var(--max);
+  margin: 0 auto 10px;
+  list-style: none;
+}
+
+.contactList a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+}
+
+.rights {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .page {
+    --gutter: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    --gutter: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .page *::before,
+  .page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

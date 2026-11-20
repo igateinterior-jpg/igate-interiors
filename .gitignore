@@ -36,3 +36,9 @@ Thumbs.db
 
 # Private keys
 *.pem
+.env*
+.playwright-mcp/
+
+# Playwright
+test-results/
+playwright-report/

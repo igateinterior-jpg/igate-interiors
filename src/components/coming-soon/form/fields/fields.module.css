@@ -1,0 +1,376 @@
+/* Form controls. Sharp corners like the logo; selected chips fill with red. */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.req {
+  margin-inline-start: -4px;
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+.optional {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.question,
+.hint {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.question {
+  margin: -6px 0 12px;
+}
+
+.input {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--well);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+.textarea {
+  min-height: 120px;
+  padding: 12px 14px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.input:focus-visible,
+.phone:focus-within {
+  outline: none;
+  border-color: var(--action);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+:global([dir='rtl']) .input[dir='ltr'] {
+  text-align: right;
+}
+
+.input[aria-invalid='true'],
+.phone[data-invalid] {
+  border-color: var(--warn);
+}
+
+.error {
+  color: var(--warn);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Phone: fixed +965 prefix. Always laid out left to right. */
+.phone {
+  display: flex;
+  align-items: stretch;
+  min-height: 50px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--well);
+}
+
+.prefix {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border-right: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--cs-font-latin), sans-serif;
+  font-weight: 600;
+}
+
+.phoneInput {
+  flex: 1;
+  min-width: 0;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+}
+
+.phoneInput:focus {
+  outline: none;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 16px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  pointer-events: none;
+  transform: translateY(-70%) rotate(45deg);
+}
+
+.select {
+  appearance: none;
+  padding-inline-end: 40px;
+  cursor: pointer;
+}
+
+.select option {
+  background: var(--card);
+  color: var(--ink);
+}
+
+/* Detail box under "Other" / "Set height". */
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  padding-inline-start: 14px;
+  border-inline-start: 2px solid var(--brand);
+}
+
+.detailLabel {
+  display: flex;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ─── Chips ─── */
+
+.chipGroup {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 12px;
+  padding: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chips + .error {
+  margin-top: 10px;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  font-size: 15px;
+  line-height: 1.35;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip:hover {
+  border-color: var(--ink);
+}
+
+.chipInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chipMark {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border: 1.5px solid currentColor;
+  opacity: 0.75;
+}
+
+.chipGroup[data-mode='single'] .chipMark {
+  border-radius: 50%;
+}
+
+.chip:has(.chipInput:checked) {
+  border-color: var(--action);
+  background: var(--action);
+  color: #fff;
+}
+
+.chipInput:checked + .chipMark {
+  border-color: #fff;
+  background: #fff;
+  box-shadow: inset 0 0 0 3px var(--action);
+  opacity: 1;
+}
+
+.chip:has(.chipInput:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.chipGroup[aria-invalid='true'] .chip:not(:has(.chipInput:checked)) {
+  border-color: var(--warn);
+}
+
+/* ─── Upload ─── */
+
+.dropZone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 18px;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.dropZone:hover {
+  border-color: var(--ink);
+}
+
+.dropZone:has(.fileInput:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.dropZone[data-invalid] {
+  border-color: var(--warn);
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dropAction {
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+.uploadNote {
+  align-self: flex-start;
+  color: var(--ink);
+  font-size: 14px;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 6px;
+  padding-inline: 14px 6px;
+  background: var(--well);
+  border: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.fileName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  color: var(--muted);
+}
+
+.fileRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.fileRemove:hover {
+  color: var(--ink);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+  }
+
+  .field[data-wide] {
+    grid-column: 1 / -1;
+  }
+}

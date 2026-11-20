@@ -1,0 +1,618 @@
+/* Landing: a mall hoarding with an access door. Built in CSS, no images except the logo. */
+
+.hoarding {
+  --panel-w: 64px;
+  --floor-h: 60px;
+  --door-w: 132px;
+  --door-h: 216px;
+  --frame: 7px;
+
+  position: relative;
+  overflow: hidden;
+  background: var(--floor);
+}
+
+/* Theme-specific artwork. */
+.showInLight {
+  display: none;
+}
+
+:global(html[data-theme='light']) .showInLight {
+  display: block;
+}
+
+:global(html[data-theme='light']) .showInDark {
+  display: none;
+}
+
+/* ─── Top bar ─── */
+
+.topBar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 12px var(--gutter);
+  transition: opacity 0.3s;
+}
+
+.hoarding[data-phase='pushing'] .topBar,
+.hoarding[data-phase='fading'] .topBar {
+  opacity: 0;
+}
+
+.skipLink {
+  color: var(--ink);
+  font-size: 14px;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+}
+
+.skipLink:hover {
+  text-decoration-color: var(--brand);
+}
+
+.topActions {
+  display: flex;
+  gap: 8px;
+}
+
+.iconButton,
+.langToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.iconButton {
+  padding: 0;
+}
+
+.iconButton > span {
+  align-items: center;
+}
+
+.iconButton > .showInDark {
+  display: inline-flex;
+}
+
+:global(html[data-theme='light']) .iconButton > .showInLight {
+  display: inline-flex;
+}
+
+:global(html[data-theme='light']) .iconButton > .showInDark {
+  display: none;
+}
+
+.iconButton:hover,
+.langToggle:hover {
+  border-color: var(--ink);
+}
+
+.langToggle span[lang='ar'] {
+  font-family: var(--cs-font-arabic), sans-serif;
+}
+
+.langToggle span[lang='en'] {
+  font-family: var(--cs-font-latin), sans-serif;
+}
+
+/* ─── Scene: the panels ─── */
+
+.scene {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 72px var(--gutter) 0;
+  border-top: 10px solid rgba(0, 0, 0, 0.22);
+  background: linear-gradient(var(--panel-top), var(--panel-bottom));
+  transform-origin: var(--push-x, 50%) var(--push-y, 80%);
+}
+
+.scene::before,
+.scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Panel seams. */
+.scene::before {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(var(--panel-w) - 1px),
+    var(--seam) calc(var(--panel-w) - 1px),
+    var(--seam) var(--panel-w)
+  );
+}
+
+/* Mall ceiling light falling on the hoarding (dark mode only, transparent in light). */
+.scene::after {
+  background: radial-gradient(ellipse 70% 45% at 50% 0%, var(--glow), transparent 70%);
+}
+
+.hoarding[data-phase='pushing'] .scene {
+  opacity: 0;
+  transform: scale(2.8);
+  transition:
+    transform 0.56s cubic-bezier(0.55, 0, 0.75, 0.2),
+    opacity 0.42s ease-in 0.14s;
+}
+
+.hoarding[data-phase='fading'] .scene {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas:
+    'print print print'
+    'safety door plate';
+  align-content: space-between;
+  column-gap: 14px;
+  row-gap: 36px;
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+/* ─── Print ─── */
+
+.print {
+  grid-area: print;
+  max-width: 34rem;
+}
+
+.logoPrint {
+  width: 150px;
+  height: auto;
+  margin-bottom: 18px;
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+:global([data-lang='ar']) .location {
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.locationMark {
+  width: 10px;
+  height: 10px;
+  background: var(--brand);
+}
+
+.heading {
+  margin-bottom: 14px;
+  font-size: clamp(2.2rem, 10vw, 5.75rem);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 112;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+:global([data-lang='ar']) .heading {
+  font-size: clamp(2.2rem, 9.5vw, 5rem);
+  font-weight: 700;
+  font-variation-settings: normal;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.subheading {
+  margin-bottom: 18px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.whatsapp {
+  min-height: 46px;
+  font-size: 15px;
+}
+
+/* ─── Door ─── */
+
+.doorway {
+  position: relative;
+  grid-area: door;
+  align-self: end;
+  width: var(--door-w);
+  height: var(--door-h);
+  background: var(--brand);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+}
+
+.doorInside {
+  position: absolute;
+  inset: var(--frame) var(--frame) 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse 90% 60% at 50% 18%, #fff2d2 0%, #e9b766 28%, #5b3d1f 70%, #2a1d10 100%);
+}
+
+/* A glimpse of the site behind: a work lamp, a prop and a beam. */
+.siteLamp {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  width: 34%;
+  height: 6%;
+  border-radius: 2px;
+  background: #fffbe8;
+  box-shadow: 0 0 24px 10px rgba(255, 236, 180, 0.7);
+  transform: translateX(-50%);
+}
+
+.sitePost {
+  position: absolute;
+  bottom: 0;
+  left: 26%;
+  width: 6%;
+  height: 72%;
+  background: #f5c518;
+}
+
+.siteBeam {
+  position: absolute;
+  top: 36%;
+  right: 0;
+  left: 0;
+  height: 5%;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.door {
+  position: absolute;
+  inset: var(--frame) var(--frame) 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 900px;
+}
+
+.page .door:focus-visible,
+.door:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: calc(var(--frame) + 4px);
+}
+
+.leaf {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  background: linear-gradient(90deg, #34373d, #2c2f34);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.04);
+  transform-origin: left center;
+  transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+:global(html[data-theme='light']) .leaf {
+  border-color: rgba(0, 0, 0, 0.24);
+  background: linear-gradient(90deg, #e8e8e4, #e0e0dc);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.08),
+    inset 0 0 0 5px rgba(0, 0, 0, 0.03);
+}
+
+:global([dir='rtl']) .leaf {
+  transform-origin: right center;
+}
+
+@media (hover: hover) {
+  .hoarding[data-door='closed'] .door:hover .leaf {
+    transform: rotateY(-9deg);
+  }
+
+  :global([dir='rtl']) .hoarding[data-door='closed'] .door:hover .leaf {
+    transform: rotateY(9deg);
+  }
+}
+
+.hoarding[data-door='opening'] .leaf,
+.hoarding[data-door='open'] .leaf {
+  transform: rotateY(-104deg);
+}
+
+:global([dir='rtl']) .hoarding[data-door='opening'] .leaf,
+:global([dir='rtl']) .hoarding[data-door='open'] .leaf {
+  transform: rotateY(104deg);
+}
+
+.doorSign {
+  position: absolute;
+  top: 14%;
+  right: 12%;
+  left: 12%;
+  padding: 5px 4px;
+  border: 1px solid #b3241a;
+  background: #ffffff;
+  color: #b3241a;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.handle {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 10px;
+  width: 7px;
+  height: 28px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #d9dce0, #9a9ea5);
+}
+
+/* Pulse on the handle every few seconds until the door is used. */
+.hoarding[data-door='closed'] .handle::after {
+  content: '';
+  position: absolute;
+  inset: -6px -8px;
+  border: 2px solid var(--brand);
+  border-radius: 8px;
+  opacity: 0;
+  animation: handlePulse 3.2s ease-out 1.2s infinite;
+}
+
+@keyframes handlePulse {
+  0% { opacity: 0.9; transform: scale(0.8); }
+  25% { opacity: 0; transform: scale(1.6); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+
+.permit {
+  position: absolute;
+  bottom: 22%;
+  inset-inline-start: 12%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 44%;
+  padding: 4px;
+  background: #fbfaf5;
+  color: #1f2124;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.1;
+  transform: rotate(-4deg);
+}
+
+.barcode {
+  height: 10px;
+  background: repeating-linear-gradient(90deg, #1f2124 0 1px, transparent 1px 3px, #1f2124 3px 5px, transparent 5px 6px);
+}
+
+.stamp {
+  align-self: flex-start;
+  padding: 1px 3px;
+  border: 1px solid #b3241a;
+  color: #b3241a;
+  transform: rotate(-6deg);
+}
+
+.kick {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 9%;
+  background: linear-gradient(#9a9ea5, #c9ccd1);
+  opacity: 0.6;
+}
+
+/* ─── Signs on the panels ─── */
+
+.safety {
+  grid-area: safety;
+  align-self: center;
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 92px;
+  padding: 12px 6px 8px;
+  border: 3px solid #111;
+  background:
+    repeating-linear-gradient(-45deg, #111 0 5px, #f5c518 5px 10px) top / 100% 7px no-repeat,
+    #f5c518;
+  color: #111;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.safetyIcon {
+  color: #111;
+}
+
+.plate {
+  grid-area: plate;
+  align-self: end;
+  justify-self: start;
+  width: 96px;
+  margin-bottom: 26px;
+  padding: 9px 10px;
+  border-radius: 2px;
+  background:
+    radial-gradient(circle at 6px 6px, #6b6f75 1.6px, transparent 2.2px),
+    radial-gradient(circle at calc(100% - 6px) 6px, #6b6f75 1.6px, transparent 2.2px),
+    radial-gradient(circle at 6px calc(100% - 6px), #6b6f75 1.6px, transparent 2.2px),
+    radial-gradient(circle at calc(100% - 6px) calc(100% - 6px), #6b6f75 1.6px, transparent 2.2px),
+    linear-gradient(135deg, #eceef0, #b8bcc2);
+  color: #1d1f22;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* ─── Band and floor ─── */
+
+.band {
+  position: relative;
+  z-index: 1;
+  height: 16px;
+  margin: 0 calc(var(--gutter) * -1);
+  background: var(--brand);
+  box-shadow: 0 -5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.floor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--floor-h);
+  padding: 8px var(--gutter);
+  background: var(--floor);
+}
+
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ─── Larger screens ─── */
+
+@media (min-width: 640px) {
+  .hoarding {
+    --panel-w: 96px;
+    --door-w: 150px;
+    --door-h: 250px;
+  }
+
+  .logoPrint {
+    width: 210px;
+  }
+
+  .safety {
+    width: 112px;
+    font-size: 12px;
+  }
+
+  .plate {
+    width: 130px;
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hoarding {
+    --panel-w: 140px;
+    --floor-h: 68px;
+    --door-w: 184px;
+    --door-h: 306px;
+    --frame: 9px;
+  }
+
+  /* Desktop: the hoarding fills the first screen. */
+  .scene {
+    min-height: calc(100svh - var(--floor-h));
+    padding-top: 92px;
+  }
+
+  .stage {
+    grid-template-columns: minmax(0, 1.3fr) auto minmax(0, 0.7fr);
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      'print door safety'
+      'print door plate';
+    column-gap: 56px;
+    row-gap: 22px;
+  }
+
+  .print {
+    align-self: center;
+    padding-bottom: 40px;
+  }
+
+  .logoPrint {
+    width: 300px;
+    margin-bottom: 26px;
+  }
+
+  .heading {
+    font-size: clamp(3.25rem, 5vw, 4.6rem);
+  }
+
+  :global([data-lang='ar']) .heading {
+    font-size: clamp(3rem, 4.6vw, 4.2rem);
+  }
+
+  .subheading {
+    font-size: 18px;
+  }
+
+  .safety {
+    align-self: end;
+    justify-self: start;
+    width: 132px;
+    font-size: 13px;
+  }
+
+  .plate {
+    width: 170px;
+    margin-bottom: 40px;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .doorSign {
+    font-size: 12px;
+  }
+
+  .permit {
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf {
+    transition: none;
+  }
+
+  .hoarding[data-door='closed'] .handle::after {
+    animation: none;
+  }
+}
