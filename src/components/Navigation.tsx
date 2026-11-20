@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { Link, usePathname } from '@/i18n/routing';
 
 export default function Navigation({ locale }: { locale: string }) {
@@ -23,16 +24,17 @@ export default function Navigation({ locale }: { locale: string }) {
       <nav id="mainNav" className="glass-nav">
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-6 lg:px-12">
           {/* Logo */}
-          <Link href="/" className="z-[101] flex items-center gap-2.5">
-            <div className="flex h-[38px] w-[38px] items-center justify-center rounded-md bg-[var(--color-brand)]">
-              <span className="text-sm font-extrabold text-white tracking-tight">iG</span>
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="text-[15px] font-bold tracking-wider text-white">iGate</span>
-              <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-[4px] text-[var(--color-text-muted)]">
-                Interiors
-              </span>
-            </div>
+          <Link href="/" className="z-[101] flex items-center">
+            <Image
+              src="/brand/igate-logo-dark.svg"
+              alt="iGate Interiors"
+              width={82}
+              height={38}
+              priority
+              unoptimized
+              // Inline style forces the box; the global `img { height: auto }` reset otherwise wins and stretches this SVG to its page-canvas aspect ratio.
+              style={{ height: '38px', width: '82px' }}
+            />
           </Link>
 
           {/* Desktop Links */}
