@@ -1,0 +1,211 @@
+/* The hoarding access door. Its swing is driven by --open (0 closed, 1 open) from the scroll scene. */
+
+.doorway {
+  position: relative;
+  grid-area: door;
+  align-self: end;
+  width: var(--door-w);
+  height: var(--door-h);
+  background: var(--brand);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+}
+
+.doorInside {
+  position: absolute;
+  inset: var(--frame) var(--frame) 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse 90% 60% at 50% 18%, #fff2d2 0%, #e9b766 28%, #5b3d1f 70%, #2a1d10 100%);
+}
+
+/* A glimpse of the site behind: a work lamp, a prop and a beam. */
+.siteLamp {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  width: 34%;
+  height: 6%;
+  border-radius: 2px;
+  background: #fffbe8;
+  box-shadow: 0 0 24px 10px rgba(255, 236, 180, 0.7);
+  transform: translateX(-50%);
+}
+
+.sitePost {
+  position: absolute;
+  bottom: 0;
+  left: 26%;
+  width: 6%;
+  height: 72%;
+  background: #f5c518;
+}
+
+.siteBeam {
+  position: absolute;
+  top: 36%;
+  right: 0;
+  left: 0;
+  height: 5%;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.door {
+  position: absolute;
+  inset: var(--frame) var(--frame) 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 900px;
+}
+
+.door:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: calc(var(--frame) + 4px);
+}
+
+.leaf {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  background: linear-gradient(90deg, #34373d, #2c2f34);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.04);
+  transform-origin: left center;
+  transform: rotateY(calc(var(--open, 0) * -104deg));
+}
+
+:global([dir='rtl']) .leaf {
+  transform-origin: right center;
+  transform: rotateY(calc(var(--open, 0) * 104deg));
+}
+
+:global(html[data-theme='light']) .leaf {
+  border-color: rgba(0, 0, 0, 0.24);
+  background: linear-gradient(90deg, #e8e8e4, #e0e0dc);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.7),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.08),
+    inset 0 0 0 5px rgba(0, 0, 0, 0.03);
+}
+
+/* A small nudge on hover while the door is shut invites a click. */
+@media (hover: hover) {
+  :global(header[data-door='closed']) .leaf {
+    transition: transform 0.25s ease-out;
+  }
+
+  :global(header[data-door='closed']) .door:hover .leaf {
+    transform: rotateY(-9deg);
+  }
+
+  :global([dir='rtl'] header[data-door='closed']) .door:hover .leaf {
+    transform: rotateY(9deg);
+  }
+}
+
+.doorSign {
+  position: absolute;
+  top: 14%;
+  right: 12%;
+  left: 12%;
+  padding: 5px 4px;
+  border: 1px solid #b3241a;
+  background: #ffffff;
+  color: #b3241a;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.handle {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 10px;
+  width: 7px;
+  height: 28px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #d9dce0, #9a9ea5);
+}
+
+/* Pulse on the handle every few seconds while the door is shut. */
+:global(header[data-door='closed']) .handle::after {
+  content: '';
+  position: absolute;
+  inset: -6px -8px;
+  border: 2px solid var(--brand);
+  border-radius: 8px;
+  opacity: 0;
+  animation: handlePulse 3.2s ease-out 1.2s infinite;
+}
+
+@keyframes handlePulse {
+  0% { opacity: 0.9; transform: scale(0.8); }
+  25% { opacity: 0; transform: scale(1.6); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+
+.permit {
+  position: absolute;
+  bottom: 22%;
+  inset-inline-start: 12%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 44%;
+  padding: 4px;
+  background: #fbfaf5;
+  color: #1f2124;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.1;
+  transform: rotate(-4deg);
+}
+
+.permitTitle {
+  display: block;
+}
+
+.barcode {
+  height: 10px;
+  background: repeating-linear-gradient(90deg, #1f2124 0 1px, transparent 1px 3px, #1f2124 3px 5px, transparent 5px 6px);
+}
+
+.stamp {
+  align-self: flex-start;
+  padding: 1px 3px;
+  border: 1px solid #b3241a;
+  color: #b3241a;
+  transform: rotate(-6deg);
+}
+
+.kick {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 9%;
+  background: linear-gradient(#9a9ea5, #c9ccd1);
+  opacity: 0.6;
+}
+
+@media (min-width: 1024px) {
+  .doorSign {
+    font-size: 12px;
+  }
+
+  .permit {
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf {
+    transition: none;
+  }
+
+  :global(header[data-door='closed']) .handle::after {
+    animation: none;
+  }
+}

@@ -3,10 +3,14 @@ export type Theme = 'light' | 'dark';
 export const THEME_KEY = 'igate-theme';
 
 /**
- * Runs in <head> before first paint so the page never flashes the wrong theme.
- * A saved choice wins; otherwise the device setting is used.
+ * Runs in <head> before first paint so the page never flashes the wrong theme
+ * or jumps when the scroll-driven landing switches on.
+ * A saved theme choice wins; otherwise the device setting is used.
  */
-export const THEME_BOOT_SCRIPT = `(function(){try{var s=localStorage.getItem('${THEME_KEY}');var t=s==='light'||s==='dark'?s:(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`;
+export const THEME_BOOT_SCRIPT = `(function(){var d=document.documentElement;try{var s=localStorage.getItem('${THEME_KEY}');var t=s==='light'||s==='dark'?s:(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');d.setAttribute('data-theme',t);}catch(e){d.setAttribute('data-theme','dark');}try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)d.setAttribute('data-scrolly','on');}catch(e){}})();`;
+
+/** Set by the boot script when the scroll-driven landing is active (no reduced motion). */
+export const SCROLLY_ATTR = 'data-scrolly';
 
 export const currentTheme = (): Theme =>
   document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';

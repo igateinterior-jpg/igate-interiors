@@ -15,6 +15,7 @@ export interface Copy {
   readonly switchTo: string;
   readonly switchLabel: string;
   readonly skipToForm: string;
+  readonly skipToFormShort: string;
   readonly toLight: string;
   readonly toDark: string;
   readonly location: string;
@@ -22,8 +23,7 @@ export interface Copy {
   readonly subheading: string;
   readonly doorLabel: string;
   readonly doorSign: string;
-  readonly doorHintTouch: string;
-  readonly doorHintPointer: string;
+  readonly doorHint: string;
   readonly safetySign: string;
   readonly contractorPlate: string;
   readonly permitTitle: string;
@@ -84,6 +84,7 @@ const en: Copy = {
   switchTo: 'عربي',
   switchLabel: 'View this page in Arabic',
   skipToForm: 'Skip to request form',
+  skipToFormShort: 'Skip to form',
   toLight: 'Light mode',
   toDark: 'Dark mode',
   location: 'KUWAIT',
@@ -92,8 +93,7 @@ const en: Copy = {
     'Our new website is on the way. Fit-outs, mall hoardings, demolition and Core & Shell restoration across Kuwait.',
   doorLabel: 'Enter the site',
   doorSign: 'Authorised entry',
-  doorHintTouch: 'Tap the door to step inside',
-  doorHintPointer: 'Click the door to step inside',
+  doorHint: 'Scroll or tap the door to step inside',
   safetySign: 'Works in progress',
   contractorPlate: 'Fit-out by iGate Interiors',
   permitTitle: 'Work permit',
@@ -181,6 +181,7 @@ const ar: Copy = {
   switchTo: 'English',
   switchLabel: 'View this page in English',
   skipToForm: 'انتقل إلى نموذج الطلب',
+  skipToFormShort: 'انتقل إلى النموذج',
   toLight: 'الوضع الفاتح',
   toDark: 'الوضع الداكن',
   location: 'الكويت',
@@ -189,8 +190,7 @@ const ar: Copy = {
     'موقعنا الجديد قادم قريباً. تجهيز داخلي وحواجز مؤقتة في المجمعات وهدم وترميم الهيكل والأساس في جميع أنحاء الكويت.',
   doorLabel: 'ادخل إلى الموقع',
   doorSign: 'دخول مصرّح به',
-  doorHintTouch: 'اضغط على الباب للدخول',
-  doorHintPointer: 'انقر على الباب للدخول',
+  doorHint: 'مرّر أو اضغط على الباب للدخول',
   safetySign: 'أعمال قيد التنفيذ',
   contractorPlate: 'التنفيذ بواسطة آي غيت للتصميم الداخلي',
   permitTitle: 'تصريح عمل',

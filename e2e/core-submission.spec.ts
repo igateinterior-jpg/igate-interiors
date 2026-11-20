@@ -26,7 +26,7 @@ test('a complete Core & Shell request is sent with only its own answers', async 
     sessionStorage.clear();
   });
   await page.reload();
-  await page.getByRole('link', { name: 'Skip to request form' }).click();
+  await page.getByRole('link', { name: /Skip to/ }).click();
 
   // Step 1: choose the path.
   await page.getByRole('button', { name: /Core & Shell restoration/ }).click();

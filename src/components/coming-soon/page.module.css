@@ -13,7 +13,7 @@
   --surface: #191a1d;
   --card: #222428;
   --ink: #f3f1ed;
-  --muted: #b0ada6;
+  --muted: #c2bfb8;
   --line: rgba(255, 255, 255, 0.14);
   --line-strong: rgba(255, 255, 255, 0.34);
   --well: rgba(0, 0, 0, 0.32);
@@ -47,7 +47,7 @@
   --surface: #f7f7f5;
   --card: #ffffff;
   --ink: #1f2124;
-  --muted: #55585d;
+  --muted: #4a4d52;
   --line: rgba(0, 0, 0, 0.14);
   --line-strong: rgba(0, 0, 0, 0.36);
   --well: #ffffff;
@@ -71,7 +71,7 @@
     --surface: #f7f7f5;
     --card: #ffffff;
     --ink: #1f2124;
-    --muted: #55585d;
+    --muted: #4a4d52;
     --line: rgba(0, 0, 0, 0.14);
     --line-strong: rgba(0, 0, 0, 0.36);
     --well: #ffffff;

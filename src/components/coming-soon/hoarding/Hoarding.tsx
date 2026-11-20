@@ -1,12 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { whatsappLink, type Copy } from '../copy';
 import page from '../page.module.css';
 import Door from './Door';
 import { ContractorPlate, SafetySign } from './Signs';
 import TopBar from './TopBar';
-import { useDoor } from './useDoor';
+import { useScrollScene } from './useScrollScene';
 import styles from './hoarding.module.css';
 
 const HINT_ID = 'door-hint';
@@ -27,47 +27,55 @@ interface Props {
 }
 
 export default function Hoarding({ copy, behindId, formId, onToggleLang }: Props) {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const doorRef = useRef<HTMLButtonElement>(null);
-  const door = useDoor(sceneRef, doorRef, behindId);
+  const pin = useRef<HTMLDivElement>(null);
+  const sticky = useRef<HTMLElement>(null);
+  const scene = useRef<HTMLDivElement>(null);
+  const door = useRef<HTMLButtonElement>(null);
+  const refs = useMemo(() => ({ pin, sticky, scene, door }), []);
+  const { enter } = useScrollScene(refs, behindId);
 
   return (
-    <header className={styles.hoarding} data-door={door.state} data-phase={door.phase}>
-      <TopBar copy={copy} formId={formId} onToggleLang={onToggleLang} />
+    // The tall wrapper gives the pinned scene room to play out as you scroll.
+    <div ref={pin} className={styles.pin}>
+      <header ref={sticky} className={styles.hoarding} data-door="closed">
+        <TopBar copy={copy} formId={formId} onToggleLang={onToggleLang} />
 
-      <div ref={sceneRef} className={styles.scene}>
-        <div className={styles.stage}>
-          <div className={styles.print}>
-            <img src="/brand/igate-logo-dark.svg" alt="iGate Interiors" width={340} height={158} className={`${styles.logoPrint} ${styles.showInDark}`} />
-            <img src="/brand/igate-logo-light.svg" alt="iGate Interiors" width={340} height={158} className={`${styles.logoPrint} ${styles.showInLight}`} />
-            <p className={styles.location}>
-              <span className={styles.locationMark} aria-hidden="true" />
-              {copy.location}
-            </p>
-            <h1 className={styles.heading}>{copy.heading}</h1>
-            <p className={styles.subheading}>{copy.subheading}</p>
-            <a href={whatsappLink()} className={`${page.button} ${page.secondary} ${styles.whatsapp}`} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon />
-              {copy.whatsapp}
-            </a>
+        <div ref={scene} className={styles.scene}>
+          <div className={styles.stage}>
+            <div className={styles.print}>
+              <img src="/brand/igate-logo-dark.svg" alt="iGate Interiors" width={340} height={158} className={`${styles.logoPrint} ${styles.showInDark}`} />
+              <img src="/brand/igate-logo-light.svg" alt="iGate Interiors" width={340} height={158} className={`${styles.logoPrint} ${styles.showInLight}`} />
+              <p className={styles.location}>
+                <span className={styles.locationMark} aria-hidden="true" />
+                {copy.location}
+              </p>
+              <h1 className={styles.heading}>{copy.heading}</h1>
+              <p className={styles.subheading}>{copy.subheading}</p>
+              <a href={whatsappLink()} className={`${page.button} ${page.secondary} ${styles.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon />
+                {copy.whatsapp}
+              </a>
+            </div>
+
+            <SafetySign copy={copy} />
+            <Door ref={door} copy={copy} onEnter={enter} hintId={HINT_ID} />
+            <ContractorPlate copy={copy} />
           </div>
 
-          <SafetySign copy={copy} />
-          <Door ref={doorRef} copy={copy} onEnter={door.enter} hintId={HINT_ID} />
-          <ContractorPlate copy={copy} />
+          <div className={styles.band} aria-hidden="true" />
+          <div className={styles.floor}>
+            <span className={styles.spill} aria-hidden="true" />
+            <p id={HINT_ID} className={styles.hint}>
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14">
+                <path d="M7 2v10M2.5 7.5 7 12l4.5-4.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+              </svg>
+              {copy.doorHint}
+            </p>
+          </div>
         </div>
-        <div className={styles.band} aria-hidden="true" />
-      </div>
 
-      <div className={styles.floor}>
-        <p id={HINT_ID} className={styles.hint}>
-          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14">
-            <path d="M7 12V2M2.5 6.5 7 2l4.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
-          </svg>
-          <span className={page.touchOnly}>{copy.doorHintTouch}</span>
-          <span className={page.pointerOnly}>{copy.doorHintPointer}</span>
-        </p>
-      </div>
-    </header>
+        <div className={styles.vignette} aria-hidden="true" />
+      </header>
+    </div>
   );
 }

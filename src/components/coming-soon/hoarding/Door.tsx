@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import type { Copy } from '../copy';
-import styles from './hoarding.module.css';
+import styles from './door.module.css';
 
 interface Props {
   readonly copy: Copy;

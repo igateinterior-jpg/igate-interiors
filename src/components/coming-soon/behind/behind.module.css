@@ -1,12 +1,26 @@
 /* Behind the hoarding: the site itself. A faint setting-out grid, tags hung on the work. */
 
 .behind {
+  position: relative;
   padding: 64px var(--gutter) 24px;
   background-color: var(--surface);
   background-image:
     linear-gradient(var(--seam) 1px, transparent 1px),
     linear-gradient(90deg, var(--seam) 1px, transparent 1px);
   background-size: 48px 48px;
+}
+
+/*
+ * Scroll-driven landing: this section starts underneath the pinned hoarding's
+ * last screen and is faded in by the scroll scene (opacity and pointer-events
+ * are set inline), so it crossfades in as the camera reaches the doorway.
+ */
+:global(html[data-scrolly='on']) .behind {
+  z-index: 2;
+  margin-top: -100vh;
+  margin-top: -100svh;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .inner {

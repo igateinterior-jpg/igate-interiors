@@ -3,9 +3,9 @@
 import type { MouseEvent } from 'react';
 import type { Copy } from '../copy';
 import { applyTheme, currentTheme } from '../theme';
-import { goTo } from './useDoor';
+import { goTo, prefersReducedMotion } from './navigation';
 import page from '../page.module.css';
-import styles from './hoarding.module.css';
+import styles from './topbar.module.css';
 
 function SunIcon() {
   return (
@@ -33,7 +33,7 @@ interface Props {
 export default function TopBar({ copy, formId, onToggleLang }: Props) {
   const skip = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    goTo(formId, !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    goTo(formId, !prefersReducedMotion());
   };
 
   const toggleTheme = () => applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
@@ -41,16 +41,17 @@ export default function TopBar({ copy, formId, onToggleLang }: Props) {
   return (
     <div className={styles.topBar}>
       <a href={`#${formId}`} className={styles.skipLink} onClick={skip}>
-        {copy.skipToForm}
+        <span className={styles.longLabel}>{copy.skipToForm}</span>
+        <span className={styles.shortLabel}>{copy.skipToFormShort}</span>
       </a>
-      <div className={styles.topActions}>
+      <div className={styles.actions}>
         {/* Both labels render; CSS shows the one for the current theme, so no flash or hydration mismatch. */}
         <button type="button" className={styles.iconButton} onClick={toggleTheme}>
-          <span className={styles.showInDark}>
+          <span className={styles.whenDark}>
             <SunIcon />
             <span className={page.srOnly}>{copy.toLight}</span>
           </span>
-          <span className={styles.showInLight}>
+          <span className={styles.whenLight}>
             <MoonIcon />
             <span className={page.srOnly}>{copy.toDark}</span>
           </span>

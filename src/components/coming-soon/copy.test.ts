@@ -34,6 +34,13 @@ describe('page copy', () => {
     expect(COPY.ar.uploadTouch).toBe('اضغط لرفع الملفات');
   });
 
+  it('uses the agreed door hint and short skip link', () => {
+    expect(COPY.en.doorHint).toBe('Scroll or tap the door to step inside');
+    expect(COPY.ar.doorHint).toBe('مرّر أو اضغط على الباب للدخول');
+    expect(COPY.en.skipToFormShort).toBe('Skip to form');
+    expect(COPY.ar.skipToFormShort).toBe('انتقل إلى النموذج');
+  });
+
   it('keeps the reference out of the thank-you sentence', () => {
     expect(COPY.en.thankYou).toBe('Thank you. We have your request and will contact you within 24 hours.');
     expect(COPY.ar.thankYou).toBe('شكراً لك. استلمنا طلبك وسنتواصل معك خلال 24 ساعة.');
