@@ -121,3 +121,39 @@ describe('buildConfirmationEmail: quick enquiry', () => {
     expect(email.text).not.toContain('Company or brand');
   });
 });
+
+describe('buildConfirmationEmail: free text from the form', () => {
+  const withBrand = (brand: string, mallDetail?: string): CleanRequest => ({
+    ...core,
+    values: { ...core.values, brand, ...(mallDetail ? { mall: 'other' } : {}) },
+    details: mallDetail ? { mall: mallDetail } : {},
+  });
+
+  it.each([
+    'Pay now at http://evil.example',
+    'Visit www.evil.example',
+    'evil-site.com/login',
+    'Contact refunds@evil.example',
+  ])('leaves out an answer that looks like a link or email address: %s', (brand) => {
+    const email = buildConfirmationEmail(withBrand(brand), { reference: REF, lang: 'en', logoUrl: LOGO });
+    expect(email.text).not.toContain(brand);
+    expect(email.html).not.toContain('evil');
+    expect(email.text).not.toContain('Brand / trading name');
+  });
+
+  it('applies the same rule to the "Other" mall box', () => {
+    const email = buildConfirmationEmail(withBrand('Cafe Nero', 'login at evil.example'), { reference: REF, lang: 'en', logoUrl: LOGO });
+    expect(email.text).not.toContain('evil');
+  });
+
+  it('shortens long free text', () => {
+    const email = buildConfirmationEmail(withBrand('A'.repeat(200)), { reference: REF, lang: 'en', logoUrl: LOGO });
+    expect(email.text).toContain(`Brand / trading name: ${'A'.repeat(60)}...`);
+    expect(email.text).not.toContain('A'.repeat(61));
+  });
+
+  it('keeps ordinary names that contain dots', () => {
+    const email = buildConfirmationEmail(withBrand('St. Regis Cafe'), { reference: REF, lang: 'en', logoUrl: LOGO });
+    expect(email.text).toContain('Brand / trading name: St. Regis Cafe');
+  });
+});

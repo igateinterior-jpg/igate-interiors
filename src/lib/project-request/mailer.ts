@@ -30,6 +30,8 @@ export interface MailerConfig {
   readonly confirmationFrom: string;
   readonly confirmationReplyTo: string;
   readonly logoUrl: string;
+  /** Per-address limit for confirmations; returns false to skip sending. */
+  readonly canConfirm?: (address: string) => boolean;
 }
 
 export interface DeliveryInput {
@@ -76,6 +78,10 @@ export async function deliverRequest(client: EmailClient, config: MailerConfig, 
   );
   if (!teamSent) return { team: 'failed', confirmation: 'skipped' };
   if (!clientEmail) return { team: 'sent', confirmation: 'skipped' };
+  if (config.canConfirm && !config.canConfirm(clientEmail)) {
+    console.warn('[project-request] confirmation skipped: address limit reached', { reference });
+    return { team: 'sent', confirmation: 'skipped' };
+  }
 
   const confirmation = buildConfirmationEmail(request, { reference, lang, logoUrl: config.logoUrl });
   const confirmed = await trySend(

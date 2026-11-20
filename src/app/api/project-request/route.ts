@@ -22,6 +22,8 @@ const RANDOM_SPACE = 1_000_000;
 const cryptoRandom = () => randomInt(RANDOM_SPACE) / RANDOM_SPACE;
 
 const limiter = createRateLimiter({ max: 5, windowMs: 60 * 60 * 1000 });
+// Confirmations go to unverified addresses: cap how many one address can receive.
+const confirmationLimiter = createRateLimiter({ max: 3, windowMs: 24 * 60 * 60 * 1000 });
 
 type ErrorCode = 'rateLimited' | 'badRequest' | 'notConfigured' | 'sendFailed' | 'invalid';
 
@@ -46,6 +48,7 @@ const mailerConfig = (): MailerConfig => ({
   confirmationFrom: process.env.CONFIRMATION_FROM_EMAIL || CONFIRMATION_FROM,
   confirmationReplyTo: CONFIRMATION_REPLY_TO,
   logoUrl: EMAIL_LOGO_URL,
+  canConfirm: (address) => !confirmationLimiter.isLimited(address.trim().toLowerCase()),
 });
 
 const resendClient = (apiKey: string): EmailClient => {

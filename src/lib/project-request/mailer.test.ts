@@ -85,4 +85,12 @@ describe('deliverRequest', () => {
     expect(result).toEqual({ team: 'failed', confirmation: 'skipped' });
     expect(sent).toHaveLength(1);
   });
+
+  it('skips the confirmation when the address has had too many today', async () => {
+    const { client, sent } = fakeClient();
+    const limited = { ...config, canConfirm: (address: string) => address !== 'sara@example.com' };
+    const result = await deliverRequest(client, limited, input(request('sara@example.com')));
+    expect(result).toEqual({ team: 'sent', confirmation: 'skipped' });
+    expect(sent).toHaveLength(1);
+  });
 });

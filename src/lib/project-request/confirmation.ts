@@ -92,14 +92,32 @@ interface Row {
   readonly value: string;
 }
 
+/*
+ * The confirmation goes to an address nobody has verified, so free text typed
+ * into the form is treated with care: anything that looks like a link or an
+ * email address is left out, and the rest is shortened. Fixed option labels
+ * are shown as they are. The team email always gets the full answers.
+ */
+const FREE_TEXT_MAX = 60;
+const LINK_LIKE = /(https?:\/\/|www\.|@|[\p{L}\p{N}-]+\.[a-z]{2,}(?=$|[\s/:?#]))/iu;
+
+const safeFreeText = (value: string): string | null => {
+  if (LINK_LIKE.test(value)) return null;
+  return value.length > FREE_TEXT_MAX ? `${value.slice(0, FREE_TEXT_MAX)}...` : value;
+};
+
 const summaryRows = (request: CleanRequest, lang: Lang): readonly Row[] => {
   const path = getPath(request.path);
   const fields = path.steps.flatMap((s) => s.fields);
   const answers = SUMMARY_FIELDS[request.path]
     .map((id) => fields.find((f) => f.id === id))
     .filter((f): f is NonNullable<typeof f> => f !== undefined)
-    .map((f) => ({ label: f.label[lang], value: formatAnswer(f, request.values[f.id], request.details[f.id], lang) }))
-    .filter((row) => row.value !== '');
+    .map((f) => {
+      const value = formatAnswer(f, request.values[f.id], request.details[f.id], lang);
+      const freeText = f.type === 'text' || Boolean(request.details[f.id]);
+      return { label: f.label[lang], value: freeText ? safeFreeText(value) : value };
+    })
+    .filter((row): row is Row => row.value !== null && row.value !== '');
   return [{ label: STRINGS[lang].requestType, value: path.title[lang] }, ...answers];
 };
 
