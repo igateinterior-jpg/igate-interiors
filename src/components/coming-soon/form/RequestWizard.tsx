@@ -77,9 +77,9 @@ export default function RequestWizard({ copy, lang, id }: { copy: Copy; lang: La
           <div className={styles.layout} data-summary={path && state.step > 0 ? true : undefined}>
             <form ref={formRef} className={styles.form} onSubmit={handleSubmit} noValidate>
               <div className={page.srOnly} aria-hidden="true">
-                <label>
+                <label aria-hidden="true">
                   Website
-                  <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+                  <input type="text" name="website" aria-hidden="true" tabIndex={-1} autoComplete="off" />
                 </label>
               </div>
 
